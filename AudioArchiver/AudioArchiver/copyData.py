@@ -11,10 +11,10 @@ class FileCopy(threading.Thread):
         self.dirs = list(dirs)  # copy list
         for f in files:
             if not os.path.exists(f):
-                raise ValueError('%s does not exist' % f)
+                raise FileNotFoundError(f"{f} does not exist")
         for d in dirs:
             if not os.path.isdir(d):
-                raise ValueError('%s is not a directory' % d)
+                raise NotADirectoryError(f"{d} is not a directory")
 
     def run(self):
         # This puts one object into the queue for each file,
@@ -41,7 +41,7 @@ class FileDelete(threading.Thread):
 
         for d in dirs:
             if not os.path.isdir(d):
-                raise ValueError('%s is not a directory' % d)
+                raise NotADirectoryError(f"{d} is not a directory")
 
     def run(self):
         # This puts one object into the queue for each file,
@@ -70,7 +70,7 @@ def do(arg1):
     #print ('Argument :' + arg1)
 
     if not os.path.exists(arg1):
-        raise ValueError('Datei %s wurde nicht gefunden' % arg1)
+        raise FileNotFoundError(f"Datei {arg1} wurde nicht gefunden")
 
     partList = psutil.disk_partitions()
 
