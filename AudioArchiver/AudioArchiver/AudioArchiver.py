@@ -10,7 +10,7 @@ import glob
 class AudioArchiver():
     def __init__(self, check=False):
 
-        self.version = "V0.5.2"
+        self.__version__ = "V0.5.2"
 
         print("AudioArchiver: " + self.version)
         print("Suche Dateien")
@@ -98,7 +98,7 @@ class AudioArchiver():
     def normalize(self):
 
         if not os.path.isfile(self.srcFile):
-            raise NameError("Aunfnahmedatei " + self.srcFile +
+            raise FileNotFoundError("Aunfnahmedatei " + self.srcFile +
                             " nicht gefunden")
 
         meta = '-metadata title="Gottesdienst vom ' + self.dateStr + '" -metadata album="Martinskirche Oeschingen" -metadata copyright="Evangelische Kirchengemeinde Oeschingen"'
@@ -108,7 +108,7 @@ class AudioArchiver():
         proc.wait()
 
         if not os.path.isfile(self.destFile):
-            raise NameError("Ablagedatei  " + self.destFile +
+            raise FileNotFoundError("Ablagedatei  " + self.destFile +
                             " nicht gefunden")
 
     def archiveSrc(self):
@@ -122,6 +122,7 @@ def main():
     try:
 
         parser = argparse.ArgumentParser()
+        # TODO: make this conform to usual arg names
         parser.add_argument(
             "--NoCreation",
             help="no mp3 creation. only copying files to sticks",
