@@ -3,7 +3,22 @@ from os.path import isfile, join, realpath
 
 
 def enter_index(text, start=0, end=0):
-    result = int(input(text))
+    try:
+        result = int(input(text))
+        if result < start or end < result:
+            raise IndexError(
+                f"The selected input '{result}' was not in the given bounds!")
+    except ValueError as e:
+        print(e)
+        result = enter_index("Please re-enter a valid input: ",
+                             start=start,
+                             end=end)
+    except IndexError as e:
+        print(e)
+        result = enter_index("Please re-enter a valid input: ",
+                             start=start,
+                             end=end)
+
     return result
 
 
@@ -22,7 +37,7 @@ def select_file_in_path(path):
                         start=0,
                         end=len(files) - 1)
 
-    print(files, files[index])
+    return join(path, files[index])
 
 
 def main():
