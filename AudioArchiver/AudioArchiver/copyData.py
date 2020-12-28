@@ -8,7 +8,7 @@ class FileCopy(threading.Thread):
         threading.Thread.__init__(self)
         self.queue = queue
         self.files = list(files)  # copy list
-        self.dirs = list(dirs)    # copy list
+        self.dirs = list(dirs)  # copy list
         for f in files:
             if not os.path.exists(f):
                 raise ValueError('%s does not exist' % f)
@@ -37,7 +37,7 @@ class FileDelete(threading.Thread):
         threading.Thread.__init__(self)
         self.queue = queue
         self.files = list(files)  # copy list
-        self.dirs = list(dirs)    # copy list
+        self.dirs = list(dirs)  # copy list
 
         for d in dirs:
             if not os.path.isdir(d):
@@ -50,12 +50,12 @@ class FileDelete(threading.Thread):
             for f in self.files:
                 try:
                     for d in self.dirs:
-                        
+
                         flist = os.listdir(d)
                         delfiles = [i for i in flist if i.endswith(f)]
                         for df in delfiles:
                             print(d + df)
-                            os.remove(d + df )
+                            os.remove(d + df)
                 except IOError as e:
                     self.queue.put(e)
                 else:
@@ -68,34 +68,32 @@ def do(arg1):
     # do whatever the script does
 
     #print ('Argument :' + arg1)
-	
-	
+
     if not os.path.exists(arg1):
         raise ValueError('Datei %s wurde nicht gefunden' % arg1)
 
     partList = psutil.disk_partitions()
 
-    mountList = [];
-     
+    mountList = []
+
     for partition in partList:
         #print(partition)
-        if partition.opts=='rw,removable':
+        if partition.opts == 'rw,removable':
             mountList.append(partition.mountpoint)
 
-    print( str(len(mountList)) + ' USB sticks gefunden:')
-    
-    if len(mountList) == 0:      
-      raise NameError("keine USB-Sticks gefunden")     
+    print(str(len(mountList)) + ' USB sticks gefunden:')
+
+    if len(mountList) == 0:
+        raise NameError("keine USB-Sticks gefunden")
 
     #for usbDevice in mountList:
     #    print('   ' + str(usbDevice))
-
 
     q = queue.Queue()
     files = []
     files.append(arg1)
     delFiles = ['.mp3']
-    
+
     delthread = FileDelete(q, delFiles, mountList)
     print('Lösche alte mp3 Dateien auf den USB-Sticks')
     print('Das kann etwas dauern! Bitte warten')
@@ -106,7 +104,6 @@ def do(arg1):
             break
         print(x)
     delthread.join()
-
 
     q = queue.Queue()
     copythread = FileCopy(q, files, mountList)
