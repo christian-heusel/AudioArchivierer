@@ -10,13 +10,13 @@ def enter_index(text, start=0, end=0):
             raise IndexError(
                 f"The selected input '{result}' was not in the given bounds [{start}, {end}]!"
             )
-    except ValueError as e:
-        print(e)
+    except ValueError as exc:
+        print(exc)
         result = enter_index("Please re-enter a valid input: ",
                              start=start,
                              end=end)
-    except IndexError as e:
-        print(e)
+    except IndexError as exc:
+        print(exc)
         result = enter_index("Please re-enter a valid input: ",
                              start=start,
                              end=end)
@@ -43,8 +43,8 @@ def select_file_in_path(path, constraint_re=""):
             )
 
     print("")
-    for index, f in enumerate(files):
-        print(f"[{index}] -> {f}")
+    for index, filename in enumerate(files):
+        print(f"[{index}] -> {filename}")
     print("")
 
     index = enter_index("Please enter the file number you want to select: ",
