@@ -73,7 +73,7 @@ func CopyWithProgressBars(input string, outputs []string) {
 			defer wg.Done()
 			// chunked copy from proxyReader, ignoring errors
 			for i := size; i != 0; {
-				bytes, err := io.CopyN(outfile, proxyReader, 1024*1000)
+				bytes, err := io.CopyN(outfile, proxyReader, 1024*1024*1024)
 				outfile.Sync()
 				i -= bytes
 				if err != nil && err != io.EOF {

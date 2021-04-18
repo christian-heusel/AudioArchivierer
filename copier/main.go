@@ -17,8 +17,9 @@ type arrayFlags []string
 
 func main() {
 	var outputs arrayFlags
-	flag.Var(&outputs, "output", "Some description for this param.")
-	input := flag.String("input", "./inputfile", "Some description for this param.")
+	flag.Var(&outputs, "o", "output filenames")
+	flag.Var(&outputs, "output", "output filenames")
+	input := flag.String("i", "./inputfile", "Some description for this param.")
 	flag.Parse()
 	CopyWithProgressBars(*input, outputs)
 }
